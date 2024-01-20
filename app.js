@@ -38,8 +38,6 @@ let numeroAleatorio = () => {
         do {
             numAleatorio = Math.floor(Math.random() * numeroMax) + 1;
         } while (listaNumeros.includes(numAleatorio));
-        console.log(numAleatorio);
-        console.log(listaNumeros);
         listaNumeros.push(numAleatorio);
         asignarElemento('p', `Introduce un numero entre 1 y ${numeroMax}`);
         return numAleatorio;
