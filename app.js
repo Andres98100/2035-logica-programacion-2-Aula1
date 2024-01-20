@@ -38,6 +38,8 @@ let numeroAleatorio = () => {
         do {
             numAleatorio = Math.floor(Math.random() * numeroMax) + 1;
         } while (listaNumeros.includes(numAleatorio));
+        console.log(numAleatorio);
+        console.log(listaNumeros);
         listaNumeros.push(numAleatorio);
         asignarElemento('p', `Introduce un numero entre 1 y ${numeroMax}`);
         return numAleatorio;
@@ -51,17 +53,15 @@ let limpiarCaja = () => {
 }
 
 let verificarVidas = () => {
-    if (vidas <= 1) {
-        asignarElemento('h1', 'Se han agotado las vidas, espere a que el juego se reinicie');
-        asignarElemento('p', `El numero era ${random}`);
-        inputCaja.setAttribute('disabled', true);
-        setTimeout(() => {
-            nuevoJuego();
-        }, 2000);
-        return;
-    }
-}
+    asignarElemento('h1', 'Se han agotado las vidas, espere a que el juego se reinicie');
+    asignarElemento('p', `El numero era ${random}`);
+    inputCaja.setAttribute('disabled', true);
+    setTimeout(() => {
+        nuevoJuego();
+    }, 2000);
+    return;
 
+}
 
 let verificarIntento = () => {
     let numero = parseInt(inputCaja.value);
@@ -72,9 +72,7 @@ let verificarIntento = () => {
         return;
     }
 
-    if (vidas <= 1) {
-        verificarVidas();
-    } else {
+    if (vidas > 0) {
         if (numero === random) {
             asignarElemento('p', `Felicidades, has ganado en ${intentos} ${(intentos == 1) ? 'intento' : 'intentos'}`);
             document.getElementById('reiniciar').removeAttribute('disabled');
@@ -82,15 +80,18 @@ let verificarIntento = () => {
         } else {
             if (numero > random) {
                 asignarElemento('p', 'El numero es menor');
-                vidas--;
             } else {
                 asignarElemento('p', 'El numero es mayor');
-                vidas--;
             }
+            vidas--;
             asignarElemento('h1', `Vidas: ${vidas}`);
-            intentos++;
             limpiarCaja();
             inputCaja.focus();
+            intentos++;
+
+            if (vidas <= 0) {
+                verificarVidas();
+            }
         }
     }
     return;
